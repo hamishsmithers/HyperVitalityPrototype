@@ -28,13 +28,12 @@ public class Asteroid : MonoBehaviour {
 		x = Random.Range (-100, 100);
 		y = Random.Range (-100, 100);
 		z = Random.Range (-100, 100);
-		Debug.Log (x + " " + y + " " + z);
 		x = x / 100;
 		y = y / 100;
 		z = z / 100;
-		Debug.Log (x + " " + y + " " + z);
 		direction = new Vector3 (x, 0, z);
 		rotationDirection = new Vector3 (z, y, z);
+		asteroidControl = GameObject.Find ("AsteroidControl");
 
 	}
 	
@@ -68,7 +67,6 @@ public class Asteroid : MonoBehaviour {
 
 	private void Break() {
 		asteroidControl.GetComponent<AsteroidControl> ().AsteroidBreak (this.gameObject, isLarge);
-		Destroy (this.gameObject);
 
 	}
 

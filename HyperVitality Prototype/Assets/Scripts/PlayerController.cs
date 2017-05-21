@@ -24,16 +24,16 @@ public class PlayerController : MonoBehaviour {
 	private Vector3 direction  = Vector3.zero;
 
 
-	//moveX and moveY hold information for the Axes on the controller's left stick
+	//moveX and moveZ hold information for the Axes on the controller's left stick
 	private float moveX;
-	private float moveY;
+	private float moveZ;
 
 
 
 	// Use this for initialization
 	void Start () {
 		moveX = 0;
-		moveY = 0;
+		moveZ = 0;
 	}
 
 	// Update is called once per frame
@@ -45,13 +45,13 @@ public class PlayerController : MonoBehaviour {
 	private void Move() {
 
 		moveX = XCI.GetAxis (XboxAxis.LeftStickX, controller);
-		moveY = XCI.GetAxis (XboxAxis.LeftStickY, controller);
+		moveZ = XCI.GetAxis (XboxAxis.LeftStickY, controller);
 
-		Vector3 NewVector = new Vector3 (moveX, 0, moveY) * Time.deltaTime * adjustment;
+		Vector3 NewVector = new Vector3 (moveX, 0, moveZ) * Time.deltaTime * adjustment;
 
 		direction += NewVector;
 
-		if (moveX == 0 && moveY == 0) {
+		if (moveX == 0 && moveZ == 0) {
 			currentSpeed -= acceleration;
 			if (currentSpeed < minSpeed) {
 				currentSpeed = minSpeed;
