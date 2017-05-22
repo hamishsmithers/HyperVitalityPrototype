@@ -41,6 +41,7 @@ public class Asteroid : MonoBehaviour {
 	void Update () {
 		Move ();
 
+		//THIS IS FOR TESTING
 		if (Input.GetKeyDown (KeyCode.A)) {
 			Break ();
 		}
@@ -65,9 +66,16 @@ public class Asteroid : MonoBehaviour {
 		}
 	}
 
-	private void Break() {
+	public void Break() {
 		asteroidControl.GetComponent<AsteroidControl> ().AsteroidBreak (this.gameObject, isLarge);
 
 	}
 
+	void OnCollisionEnter(Collision other){
+		if (other.gameObject.tag == "Asteroid") {
+			direction = transform.position - other.transform.position;
+		} else if (other.gameObject.tag == "Player") {
+			Break ();
+		}
+	}
 }

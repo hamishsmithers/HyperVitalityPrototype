@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AsteroidControl : MonoBehaviour {
 
+	public int asteroidAmount;
+
 	public GameObject asteroidLarge;
 	public GameObject asteroidSmall;
 	public GameObject powerup;
