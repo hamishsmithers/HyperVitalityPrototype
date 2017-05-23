@@ -8,11 +8,9 @@ public class Bullet : MonoBehaviour {
 
 	public float speed;
 
-	public GameObject enemy;
-
 	// Use this for initialization
 	void Start () {
-		Destroy (this.gameObject, 5);
+		Destroy (this.gameObject, 2);
 	}
 	
 	// Update is called once per frame
@@ -22,12 +20,12 @@ public class Bullet : MonoBehaviour {
 
 	void OnCollisionEnter(Collision other){
 		if (other.gameObject.tag == "Asteroid") {
-			other.gameObject.GetComponent<Asteroid> ().Break ();
+			other.gameObject.GetComponent<Asteroid> ().Break (true);
 			Destroy (this.gameObject);
 		} else if (other.gameObject.tag == "Boundary") {
 			Destroy (this.gameObject);
-		} else if (other.gameObject == enemy) {
-			//DAMAGE ENEMY
+		} else if (other.gameObject.tag == "Player") {
+			other.gameObject.GetComponent<PlayerMesh>().TakeDamage(5);
 			Destroy(this.gameObject);
 		}
 	}

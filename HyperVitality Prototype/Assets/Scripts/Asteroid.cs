@@ -4,47 +4,44 @@ using UnityEngine;
 
 public class Asteroid : MonoBehaviour {
 
-	//tracks whether an asteroid is large or small
-	public GameObject asteroidControl;
+	//reference to AsteroidControl / Parent
+	public AsteroidControl asteroidControl;
 
+	//tracks whether an asteroid is large or small
 	public bool isLarge;
 
+	//speed at which the asteroid moves
 	public float speed;
+
+	//speed at which the asteroid rotates
 	public float rotationSpeed;
 
+	//Half the length/width of the play area
 	public float rangeX;
 	public float rangeZ;
 
+	//direction the asteroid moves in
+	public Vector3 direction;
 
-	private float x;
-	private float y;
-	private float z;
-
-	private Vector3 direction;
+	//direction the asteroid rotates in
 	private Vector3 rotationDirection;
 
+	private bool isBreaking = false;
+
 	// Use this for initialization
-	void Start () {
-		x = Random.Range (-100, 100);
-		y = Random.Range (-100, 100);
-		z = Random.Range (-100, 100);
-		x = x / 100;
-		y = y / 100;
-		z = z / 100;
+	void Awake () {
+		float x = Random.Range (-1f, 1f);
+		float y = Random.Range (-1f, 1f);
+		float z = Random.Range (-1f, 1f);
 		direction = new Vector3 (x, 0, z);
 		rotationDirection = new Vector3 (z, y, z);
-		asteroidControl = GameObject.Find ("AsteroidControl");
+		asteroidControl = GameObject.FindObjectOfType<AsteroidControl>();
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		Move ();
-
-		//THIS IS FOR TESTING
-		if (Input.GetKeyDown (KeyCode.A)) {
-			Break ();
-		}
 
 	}
 
@@ -54,28 +51,42 @@ public class Asteroid : MonoBehaviour {
 		transform.Rotate (rotationDirection.normalized * rotationSpeed);
 
 		if (transform.position.x < -rangeX) {
-			transform.position = new Vector3 (rangeX, 0, -transform.position.z);
+			transform.position = new Vector3 (rangeX, 0, transform.position.z);
 		} else if (transform.position.x > rangeX) {
-			transform.position=new Vector3(-rangeX,0,-transform.position.z);
+			transform.position=new Vector3(-rangeX,0,transform.position.z);
 		}
 
 		if (transform.position.z < -rangeZ) {
-			transform.position=new Vector3(-transform.position.x,0,rangeZ);
+			transform.position=new Vector3(transform.position.x,0,rangeZ);
 		} else if (transform.position.z > rangeZ) {
-			transform.position=new Vector3(-transform.position.x,0,-rangeZ);
+			transform.position=new Vector3(transform.position.x,0,-rangeZ);
 		}
 	}
 
-	public void Break() {
-		asteroidControl.GetComponent<AsteroidControl> ().AsteroidBreak (this.gameObject, isLarge);
-
+	//Calls function in controller to break this asteroid and spawn apropriate asteroids or powerups.
+	public void Break(bool wasPlayer) {
+		isBreaking = true;
+		//asteroidControl.GetComponent<AsteroidControl> ().AsteroidBreak (this.gameObject, isLarge);
+		if (!asteroidControl) {
+			Debug.Log (gameObject.name);
+			GetComponent<BoxCollider> ().enabled = false;
+			return;
+		} else {
+			asteroidControl.AsteroidBreak (this.gameObject, isLarge, wasPlayer);
+			Destroy (this.gameObject);
+		}
 	}
 
 	void OnCollisionEnter(Collision other){
-		if (other.gameObject.tag == "Asteroid") {
-			direction = transform.position - other.transform.position;
-		} else if (other.gameObject.tag == "Player") {
-			Break ();
+		if (isBreaking == false) {
+			if (other.gameObject.tag == "Asteroid") {
+				direction = transform.position - other.transform.position;
+				direction += new Vector3 (Random.Range (-1f, 1f), 0, Random.Range (-1f, 1f)) / 5;
+				//Break (false);
+			} else if (other.gameObject.tag == "Player") {
+				other.gameObject.GetComponent<PlayerMesh>().TakeDamage(5);
+				Break (true);
+			}
 		}
 	}
 }

@@ -25,36 +25,53 @@ public class AsteroidControl : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		asteroidSpawnCounter = 1;
-		powerupCounter = Random.Range (minRandom, maxRandom);
+		powerupCounter = Random.Range (minRandom, maxRandom+1);
+		for (int i = 0; i < asteroidAmount; i++) {
+			SpawnAsteroid ();
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 
-	public void AsteroidBreak(GameObject asteroid, bool isLarge) {
+	public void AsteroidBreak(GameObject asteroid, bool isLarge, bool wasPlayer) {
 		Vector3 position = asteroid.transform.position;
 		Vector3 randomPosition = new Vector3 (Random.Range (-radius, radius), 0, Random.Range (-radius, radius));
-		Destroy (asteroid);
+//		Destroy (asteroid);
 		if (isLarge == true) {
-			Instantiate (asteroidSmall, position + randomPosition, Quaternion.identity, transform);
-			Instantiate (asteroidSmall, position - randomPosition, Quaternion.identity, transform);
+			GameObject GO1 = Instantiate (asteroidSmall, position + randomPosition, Quaternion.identity, transform) as GameObject;
+			GameObject GO2 = Instantiate (asteroidSmall, position - randomPosition, Quaternion.identity, transform) as GameObject;
+			GO1.GetComponent<Asteroid> ().direction = GO1.GetComponent<Asteroid> ().transform.position - GO2.GetComponent<Asteroid> ().transform.position;
+			GO2.GetComponent<Asteroid> ().direction = GO2.GetComponent<Asteroid> ().transform.position - GO1.GetComponent<Asteroid> ().transform.position;
 		} else {
 			if (asteroidSpawnCounter < 1) {
 				asteroidSpawnCounter = 1;
-				Instantiate (asteroidLarge, new Vector3 (Random.Range (-rangeX, rangeX), 0, rangeZ), Quaternion.identity, transform);
+				SpawnAsteroid ();
 			} else {
 				asteroidSpawnCounter--;
 			}
-			if (powerupCounter < 1) {
-				powerupCounter = Random.Range (minRandom, maxRandom);
-				Instantiate (powerup, position, Quaternion.identity);
-			} else {
-				powerupCounter--;
+			if (wasPlayer) {
+				if (powerupCounter < 1) {
+					powerupCounter = Random.Range (minRandom, maxRandom+1);
+					Instantiate (powerup, position, Quaternion.identity);
+				} else {
+					powerupCounter--;
+				}
 			}
 		}
+	}
 
+	private void SpawnAsteroid(){
+		if (Random.Range (0, 2) == 0) {
+			GameObject GO =	Instantiate (asteroidLarge, new Vector3 (Random.Range (-rangeX, rangeX), 0, rangeZ), Quaternion.identity, transform) as GameObject;
+			GO.name = Random.Range (0f, 1f).ToString();
+		} else {
+			GameObject GO =	Instantiate (asteroidLarge, new Vector3 (rangeX, 0, Random.Range(-rangeZ, rangeZ)), Quaternion.identity, transform) as GameObject;
+			GO.name = Random.Range (0f, 1f).ToString();
+		}
 
 	}
+
 }
