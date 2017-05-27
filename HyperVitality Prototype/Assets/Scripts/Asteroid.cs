@@ -23,6 +23,8 @@ public class Asteroid : MonoBehaviour {
 	//direction the asteroid moves in
 	public Vector3 direction;
 
+	public int damage;
+
 	//direction the asteroid rotates in
 	private Vector3 rotationDirection;
 
@@ -84,7 +86,7 @@ public class Asteroid : MonoBehaviour {
 				direction += new Vector3 (Random.Range (-1f, 1f), 0, Random.Range (-1f, 1f)) / 5;
 				//Break (false);
 			} else if (other.gameObject.tag == "Player") {
-				other.gameObject.GetComponent<PlayerMesh>().TakeDamage(5);
+				other.gameObject.GetComponent<PlayerMesh>().TakeDamage(damage);
 				Break (true);
 			}
 		}

@@ -73,7 +73,6 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		PlayerInput ();
-		//Fire ();
 		RayCastForWalls ();
 		MovePlayer ();
 	}
@@ -123,7 +122,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	public void TakeDamage(int damage){
-		health -= 5;
+		health -= damage;
 	}
 
 	//Moves the player. Called every update.

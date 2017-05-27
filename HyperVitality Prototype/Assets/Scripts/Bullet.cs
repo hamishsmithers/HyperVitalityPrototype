@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour {
 
 	public Vector3 direction;
+	public int damage;
 
 	public float speed;
 
@@ -25,7 +26,7 @@ public class Bullet : MonoBehaviour {
 		} else if (other.gameObject.tag == "Boundary") {
 			Destroy (this.gameObject);
 		} else if (other.gameObject.tag == "Player") {
-			other.gameObject.GetComponent<PlayerMesh>().TakeDamage(5);
+			other.gameObject.GetComponent<PlayerMesh>().TakeDamage(damage);
 			Destroy(this.gameObject);
 		}
 	}
