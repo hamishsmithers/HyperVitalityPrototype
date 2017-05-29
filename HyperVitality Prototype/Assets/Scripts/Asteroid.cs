@@ -4,50 +4,82 @@ using UnityEngine;
 
 public class Asteroid : MonoBehaviour {
 
-	//reference to AsteroidControl / Parent
+	//asteroidControl is reference to AsteroidControl gameobject
 	public AsteroidControl asteroidControl;
 
-	//tracks whether an asteroid is large or small
+	//isLarge holds whether an asteroid is large or not
 	public bool isLarge;
 
-	//speed at which the asteroid moves
+	//speed is the speed at which the asteroid will move
 	public float speed;
 
-	//speed at which the asteroid rotates
+	//rotationSpeed is the speed at which the asteroid will rotate
 	public float rotationSpeed;
 
-	//Half the length/width of the play area
+	//rangeX is the distance from x=0 that the asteroid can move on the x axis to until resetting
 	public float rangeX;
+	//rangeZ is the distance from z=0 that the asteroid can move on the z axis to until resetting
 	public float rangeZ;
 
-	//direction the asteroid moves in
+	//direction is the direction the asteroid is moving in
 	public Vector3 direction;
 
+	//damage is the amount of damage the asteroid will inflict upon players
 	public int damage;
 
-	//direction the asteroid rotates in
+	//rotationDirection is the 'direction' at which the asteroid will rotate
 	private Vector3 rotationDirection;
 
+	//isBreaking indicates whether or not the asteroid is breaking
 	private bool isBreaking = false;
 
-	// Use this for initialization
+	//----------------------------------------------------------------------------------------------------
+	//Awake()
+	//	Called on instantiation. Instantiate this instance.
+	// 
+	//	Param:
+	//		None
+	//
+	//	Return:
+	//		Void
+	//----------------------------------------------------------------------------------------------------
 	void Awake () {
+		//x is a random number used to initialize movement and rotation should it not be set externally
 		float x = Random.Range (-1f, 1f);
+		//y is a random number used to initialize movement and rotation should it not be set externally
 		float y = Random.Range (-1f, 1f);
+		//z is a random number used to initialize movement and rotation should it not be set externally
 		float z = Random.Range (-1f, 1f);
 		direction = new Vector3 (x, 0, z);
 		rotationDirection = new Vector3 (z, y, z);
 		asteroidControl = GameObject.FindObjectOfType<AsteroidControl>();
 
 	}
-	
-	// Update is called once per frame
+
+	//----------------------------------------------------------------------------------------------------
+	//Update()
+	//	Called every frame. Update this instance.
+	// 
+	//	Param:
+	//		None
+	//
+	//	Return:
+	//		Void
+	//----------------------------------------------------------------------------------------------------
 	void Update () {
 		Move ();
-
 	}
 
-	//Moves the asteroid. Called once every update.
+	//----------------------------------------------------------------------------------------------------
+	//Move()
+	//	Called every Update(). Moves the asteroid.
+	// 
+	//	Param:
+	//		None
+	//
+	//	Return:
+	//		Void
+	//----------------------------------------------------------------------------------------------------
 	private void Move(){
 		transform.position += direction.normalized * speed;
 		transform.Rotate (rotationDirection.normalized * rotationSpeed);
@@ -65,7 +97,16 @@ public class Asteroid : MonoBehaviour {
 		}
 	}
 
-	//Calls function in controller to break this asteroid and spawn apropriate asteroids or powerups.
+	//----------------------------------------------------------------------------------------------------
+	//Break()
+	//	Called from OnCollisionEnter(). Destroys this asteroid and calls apropriate controller scrips.
+	// 
+	//	Param:
+	//		bool wasPlayer - whether the collision was caused by a player or bullet
+	//
+	//	Return:
+	//		Void
+	//----------------------------------------------------------------------------------------------------
 	public void Break(bool wasPlayer) {
 		isBreaking = true;
 		//asteroidControl.GetComponent<AsteroidControl> ().AsteroidBreak (this.gameObject, isLarge);
@@ -79,6 +120,16 @@ public class Asteroid : MonoBehaviour {
 		}
 	}
 
+	//----------------------------------------------------------------------------------------------------
+	//OnCollisionEnter()
+	//	Called from collisions.
+	// 
+	//	Param:
+	//		Collision other - other object collided with.
+	//
+	//	Return:
+	//		Void
+	//----------------------------------------------------------------------------------------------------
 	void OnCollisionEnter(Collision other){
 		if (isBreaking == false) {
 			if (other.gameObject.tag == "Asteroid") {
