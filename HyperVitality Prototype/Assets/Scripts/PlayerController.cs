@@ -213,6 +213,7 @@ public class PlayerController : MonoBehaviour {
 		} else {
 			if (Time.time - fireTimer > timeBetweenShots) {
 				fireTimer = Time.time;
+				//Bullet is a new instance of a bullet
 				GameObject Bullet = Instantiate (bulletPrefab, bulletSpawn.transform.position, Quaternion.identity, bulletParent.transform) as GameObject;
 				Bullet.GetComponent<Bullet> ().direction = bulletSpawn.transform.forward;
 				Bullet.GetComponent<Bullet> ().speed = bulletSpeed + (currentSpeed / 3);
