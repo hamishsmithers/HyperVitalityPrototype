@@ -30,6 +30,10 @@ public class PlayerController : MonoBehaviour {
 
 	//bulletSpawn is a reference to the place on the ship that the bullet will spawn from
 	public GameObject bulletSpawn;
+	//bulletSpawnMinus is a reference to the place on the ship additional bullets with a smaller Y rotation will spawn
+	public GameObject bulletSpawnMinus;
+	//bulletSpawnMinus is a reference to the place on the ship additional bullets with a greater Y rotation will spawn
+	public GameObject bulletSpawnPlus;
 
 	//bulletParent is a reference to the parent of bullets in the heirarchy
 	public GameObject bulletParent;
@@ -52,14 +56,28 @@ public class PlayerController : MonoBehaviour {
 	//currentSpeed is the speed at which the player is currently moving
 	private float currentSpeed;
 
-	//timer is the time at which the player can fire again
-	private float timer;
+	//fireTimer is the time at which the player can fire again
+	private float fireTimer;
 
 	//direction is the direction the player is moving in
 	private Vector3 direction  = Vector3.zero;
 
 	//rotation is the direction the ship is facing
 	private Vector3 rotation = Vector3.zero;
+
+	//attackSpeed is whether or not the player has the attackSpeed powerup.
+	private bool attackSpeed = false;
+	//attackSpeedTimer is the time at which the attackSpeed powerup runs out.
+	private float attackSpeedTimer;
+	//attackSpeedDuration is how long the attackSpeed powerup lasts for.
+	private float attackSpeedDuration;
+
+	//tripleShot is whether or not the player has the tripleShot powerup
+	private bool tripleShot = false;
+	//tripleShotTimer is the time at which the tripleShot powerup runs out
+	private float tripleShotTimer;
+	//tripleShotDuration is how long the tripleShot powerup lasts for
+	private float tripleShotDuration;
 
 	//----------------------------------------------------------------------------------------------------
 	//Start()
@@ -72,7 +90,9 @@ public class PlayerController : MonoBehaviour {
 	//		Void
 	//----------------------------------------------------------------------------------------------------
 	void Start () {
-		timer = Time.time;
+		fireTimer = Time.time;
+		attackSpeedTimer = Time.time;
+		tripleShotTimer = Time.time;
 	}
 
 	//----------------------------------------------------------------------------------------------------
@@ -89,6 +109,7 @@ public class PlayerController : MonoBehaviour {
 		PlayerInput ();
 		RaycastForWalls ();
 		MovePlayer ();
+		CheckPowerups ();
 	}
 
 	//----------------------------------------------------------------------------------------------------
@@ -136,7 +157,27 @@ public class PlayerController : MonoBehaviour {
 			Vector3 tempRotationInput = new Vector3 (rotateX, 0, rotateZ).normalized * 10;
 			rotation = transform.position + tempRotationInput;
 			mesh.transform.LookAt (rotation);
-			Fire (tempRotationInput);
+			Fire ();
+		}
+	}
+
+
+	//----------------------------------------------------------------------------------------------------
+	//CheckPowerups()
+	//	Called every Update(). Disables powerups if their timer has run out.
+	// 
+	//	Param:
+	//		None
+	//
+	//	Return:
+	//		Void
+	//----------------------------------------------------------------------------------------------------
+	private void CheckPowerups(){
+		if (Time.time - attackSpeedTimer > attackSpeedDuration) {
+			attackSpeed = false;
+		}
+		if (Time.time - tripleShotTimer > tripleShotDuration) {
+			tripleShot = false;
 		}
 	}
 
@@ -145,20 +186,49 @@ public class PlayerController : MonoBehaviour {
 	//	Called from PlayerInput() if player inputs attacks. Fires bullets if sufficient time has passed.
 	// 
 	//	Param:
-	//		Vector3 bulletDirection - the direction the bullets will move in
+	//		None
 	//
 	//	Return:
 	//		Void
 	//----------------------------------------------------------------------------------------------------
-	private void Fire(Vector3 bulletDirection){
-		if (Time.time - timer > timeBetweenShots) {
-			timer = Time.time;
-			GameObject Bullet = Instantiate (bulletPrefab, bulletSpawn.transform.position, Quaternion.identity, bulletParent.transform) as GameObject;
-			Bullet.GetComponent<Bullet> ().direction = bulletDirection.normalized;
-			Bullet.GetComponent<Bullet> ().speed = bulletSpeed + (currentSpeed / 3);
+	private void Fire(){
+		if (attackSpeed) {
+			if (Time.time - fireTimer > timeBetweenShots / 2) {
+				fireTimer = Time.time;
+				//Bullet is a new instance of a bullet
+				GameObject Bullet = Instantiate (bulletPrefab, bulletSpawn.transform.position, Quaternion.identity, bulletParent.transform) as GameObject;
+				Bullet.GetComponent<Bullet> ().direction = bulletSpawn.transform.forward;
+				Bullet.GetComponent<Bullet> ().speed = bulletSpeed + (currentSpeed / 3);
+				if (tripleShot) {
+					//BulletMinus is a new instance of a bullet, with a lesser Y rotation
+					GameObject BulletMinus = Instantiate (bulletPrefab, bulletSpawnMinus.transform.position, Quaternion.identity, bulletParent.transform) as GameObject;
+					BulletMinus.GetComponent<Bullet> ().direction = bulletSpawnMinus.transform.forward;
+					BulletMinus.GetComponent<Bullet> ().speed = bulletSpeed + (currentSpeed / 3);
+					//BulletPlus is a new instance of a bullet, with a greater Y rotation
+					GameObject BulletPlus = Instantiate (bulletPrefab, bulletSpawnPlus.transform.position, Quaternion.identity, bulletParent.transform) as GameObject;
+					BulletPlus.GetComponent<Bullet> ().direction = bulletSpawnPlus.transform.forward;
+					BulletPlus.GetComponent<Bullet> ().speed = bulletSpeed + (currentSpeed / 3);
+				}
+			}
+		} else {
+			if (Time.time - fireTimer > timeBetweenShots) {
+				fireTimer = Time.time;
+				GameObject Bullet = Instantiate (bulletPrefab, bulletSpawn.transform.position, Quaternion.identity, bulletParent.transform) as GameObject;
+				Bullet.GetComponent<Bullet> ().direction = bulletSpawn.transform.forward;
+				Bullet.GetComponent<Bullet> ().speed = bulletSpeed + (currentSpeed / 3);
+				if (tripleShot) {
+					//BulletMinus is a new instance of a bullet, with a lesser Y rotation
+					GameObject BulletMinus = Instantiate (bulletPrefab, bulletSpawnMinus.transform.position, Quaternion.identity, bulletParent.transform) as GameObject;
+					BulletMinus.GetComponent<Bullet> ().direction = bulletSpawnMinus.transform.forward;
+					BulletMinus.GetComponent<Bullet> ().speed = bulletSpeed + (currentSpeed / 3);
+					//BulletPlus is a new instance of a bullet, with a greater Y rotation
+					GameObject BulletPlus = Instantiate (bulletPrefab, bulletSpawnPlus.transform.position, Quaternion.identity, bulletParent.transform) as GameObject;
+					BulletPlus.GetComponent<Bullet> ().direction = bulletSpawnPlus.transform.forward;
+					BulletPlus.GetComponent<Bullet> ().speed = bulletSpeed + (currentSpeed / 3);
+				}
+			}
 		}
 	}
-
 	//----------------------------------------------------------------------------------------------------
 	//TakeDamage()
 	//	Called from the player mesh when colliding with a damaging object. Reduces health by damage.
@@ -171,6 +241,28 @@ public class PlayerController : MonoBehaviour {
 	//----------------------------------------------------------------------------------------------------
 	public void TakeDamage(int damage){
 		health -= damage;
+	}
+	//----------------------------------------------------------------------------------------------------
+	//Powerup()
+	//	Called from PlayerMesh's Powerup(). Activates a powerup.
+	// 
+	//	Param:
+	//		int powerup - which powerup this is
+	//		float duration - how long this powerup lasts for
+	//
+	//	Return:
+	//		Void
+	//----------------------------------------------------------------------------------------------------
+	public void Powerup(int powerup, float duration){
+		if (powerup == 0) {
+			attackSpeed = true;
+			attackSpeedTimer = Time.time;
+			attackSpeedDuration = duration;
+		} else if (powerup == 1) {
+			tripleShot = true;
+			tripleShotTimer = Time.time;
+			tripleShotDuration = duration;
+		}
 	}
 
 	//----------------------------------------------------------------------------------------------------

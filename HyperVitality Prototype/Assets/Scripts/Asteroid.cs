@@ -138,6 +138,7 @@ public class Asteroid : MonoBehaviour {
 				//Break (false);
 			} else if (other.gameObject.tag == "Player") {
 				other.gameObject.GetComponent<PlayerMesh>().TakeDamage(damage);
+				isBreaking = true;
 				Break (true);
 			}
 		}

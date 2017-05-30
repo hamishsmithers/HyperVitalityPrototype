@@ -9,7 +9,7 @@ public class PlayerMesh : MonoBehaviour {
 
 	//----------------------------------------------------------------------------------------------------
 	//TakeDamage()
-	//	Called from harmful object's GetCollisionEnter(). Sends damage to Player.
+	//	Called from harmful object's OnCollisionEnter(). Sends damage to Player.
 	// 
 	//	Param:
 	//		int damage - damage for player to take.
@@ -19,5 +19,20 @@ public class PlayerMesh : MonoBehaviour {
 	//----------------------------------------------------------------------------------------------------
 	public void TakeDamage(int damage){
 		player.GetComponent<PlayerController> ().TakeDamage (damage);
+	}
+
+	//----------------------------------------------------------------------------------------------------
+	//Powerup()
+	//	Called from powerup's OnCollisionEnter(). Sends powerup to Player.
+	// 
+	//	Param:
+	//		int powerup - which powerup this is
+	//		float duration - how long this powerup lasts for
+	//
+	//	Return:
+	//		Void
+	//----------------------------------------------------------------------------------------------------
+	public void Powerup(int powerup, float duration){
+		player.GetComponent<PlayerController> ().Powerup(powerup, duration);
 	}
 }
