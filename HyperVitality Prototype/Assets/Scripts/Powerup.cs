@@ -52,11 +52,14 @@ public class Powerup : MonoBehaviour {
 	//		Void
 	//----------------------------------------------------------------------------------------------------
 	void Start () {
-		selector = Random.Range (0, 2);
+		selector = Random.Range (0, 3);
 		if (selector == 0) {
 			duration = attackSpeedDuration;
-		} else if(selector==1){
+		} else if (selector == 1) {
 			duration = tripleShotDuration;
+		} else if (selector == 2) {
+			Debug.Log ("SHIELD FROM POWERUP");
+			duration = shieldDuration;
 		}
 		player1 = GameObject.FindGameObjectWithTag ("Player1");
 		player2 = GameObject.FindGameObjectWithTag ("Player2");

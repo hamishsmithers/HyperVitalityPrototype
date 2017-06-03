@@ -79,6 +79,15 @@ public class PlayerController : MonoBehaviour {
 	//tripleShotDuration is how long the tripleShot powerup lasts for
 	private float tripleShotDuration;
 
+	//shield is a reference to the shield prefab
+	public GameObject shield;
+	//shielded is whether or not the player is shielded
+	private bool shielded = false;
+	//shieldTimer is the time at which the shield powerup runs out
+	private float shieldTimer;
+	//shieldDuration is how long the shield lasts for
+	private float shieldDuration;
+
 	//----------------------------------------------------------------------------------------------------
 	//Start()
 	//	Called on instantiation. Instantiate this instance.
@@ -93,6 +102,7 @@ public class PlayerController : MonoBehaviour {
 		fireTimer = Time.time;
 		attackSpeedTimer = Time.time;
 		tripleShotTimer = Time.time;
+		shieldTimer = Time.time;
 	}
 
 	//----------------------------------------------------------------------------------------------------
@@ -179,6 +189,9 @@ public class PlayerController : MonoBehaviour {
 		if (Time.time - tripleShotTimer > tripleShotDuration) {
 			tripleShot = false;
 		}
+		if (Time.time - shieldTimer > shieldDuration) {
+			shielded = false;
+		}
 	}
 
 	//----------------------------------------------------------------------------------------------------
@@ -241,7 +254,9 @@ public class PlayerController : MonoBehaviour {
 	//		Void
 	//----------------------------------------------------------------------------------------------------
 	public void TakeDamage(int damage){
-		health -= damage;
+		if (shielded == false) {
+			health -= damage;
+		}
 	}
 	//----------------------------------------------------------------------------------------------------
 	//Powerup()
@@ -263,6 +278,13 @@ public class PlayerController : MonoBehaviour {
 			tripleShot = true;
 			tripleShotTimer = Time.time;
 			tripleShotDuration = duration;
+		} else if (powerup == 2) {
+			//GO is a reference to the newly created shield
+			GameObject GO = Instantiate(shield, this.transform.position, Quaternion.identity);
+			GO.GetComponent<Shield> ().Initilise (this.gameObject, duration);
+			shielded = true;
+			shieldTimer = Time.time;
+			shieldDuration = duration;
 		}
 	}
 

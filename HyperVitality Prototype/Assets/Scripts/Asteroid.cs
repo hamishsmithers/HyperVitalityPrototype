@@ -137,10 +137,10 @@ public class Asteroid : MonoBehaviour {
 				direction += new Vector3 (Random.Range (-1f, 1f), 0, Random.Range (-1f, 1f)) / 5;
 				//Break (false);
 			} else if (other.gameObject.tag == "Player") {
-				other.gameObject.GetComponent<PlayerMesh>().TakeDamage(damage);
+				other.gameObject.GetComponent<PlayerMesh> ().TakeDamage (damage);
 				isBreaking = true;
 				Break (true);
-			}
+			} 
 		}
 	}
 }
