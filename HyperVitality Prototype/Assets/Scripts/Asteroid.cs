@@ -33,6 +33,9 @@ public class Asteroid : MonoBehaviour {
 	//isBreaking indicates whether or not the asteroid is breaking
 	private bool isBreaking = false;
 
+	//canBreak tracks whether the asteroid can break
+	private bool canBreak =true;
+
 	//----------------------------------------------------------------------------------------------------
 	//Awake()
 	//	Called on instantiation. Instantiate this instance.
@@ -81,13 +84,13 @@ public class Asteroid : MonoBehaviour {
 	//		Void
 	//----------------------------------------------------------------------------------------------------
 	private void Move(){
-		transform.position += direction.normalized * speed;
-		transform.Rotate (rotationDirection.normalized * rotationSpeed);
+		transform.position += direction.normalized * speed * Time.deltaTime;
+		transform.Rotate (rotationDirection.normalized * rotationSpeed * Time.deltaTime);
 
 		if (transform.position.x < -rangeX) {
 			transform.position = new Vector3 (rangeX, 0, transform.position.z);
 		} else if (transform.position.x > rangeX) {
-			transform.position=new Vector3(-rangeX,0,transform.position.z);
+			transform.position = new Vector3 (-rangeX, 0, transform.position.z);
 		}
 
 		if (transform.position.z < -rangeZ) {
@@ -108,15 +111,18 @@ public class Asteroid : MonoBehaviour {
 	//		Void
 	//----------------------------------------------------------------------------------------------------
 	public void Break(bool wasPlayer) {
-		isBreaking = true;
-		//asteroidControl.GetComponent<AsteroidControl> ().AsteroidBreak (this.gameObject, isLarge);
-		if (!asteroidControl) {
-			Debug.Log (gameObject.name);
-			GetComponent<BoxCollider> ().enabled = false;
-			return;
-		} else {
-			asteroidControl.AsteroidBreak (this.gameObject, isLarge, wasPlayer);
-			Destroy (this.gameObject);
+		if (canBreak == true) {
+			//isBreaking = true;
+			//asteroidControl.GetComponent<AsteroidControl> ().AsteroidBreak (this.gameObject, isLarge);
+			if (!asteroidControl) {
+				Debug.Log (gameObject.name);
+				GetComponent<BoxCollider> ().enabled = false;
+				return;
+			} else {
+				canBreak = false;
+				asteroidControl.AsteroidBreak (this.gameObject, isLarge, wasPlayer);
+				Destroy (this.gameObject);
+			}
 		}
 	}
 

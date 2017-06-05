@@ -126,7 +126,7 @@ public class Powerup : MonoBehaviour {
 			direction = direction.normalized * currentSpeed;
 		}
 
-		transform.position += (direction / 10) * currentSpeed;
+		transform.position += (direction) * currentSpeed * Time.deltaTime;
 	}
 
 	//----------------------------------------------------------------------------------------------------

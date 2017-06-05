@@ -38,7 +38,7 @@ public class Bullet : MonoBehaviour {
 	//		Void
 	//----------------------------------------------------------------------------------------------------
 	void Update () {
-		transform.position += direction*speed/10;
+		transform.position += direction*speed * Time.deltaTime;
 	}
 
 	//----------------------------------------------------------------------------------------------------

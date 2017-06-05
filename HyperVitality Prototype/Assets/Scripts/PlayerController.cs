@@ -299,7 +299,7 @@ public class PlayerController : MonoBehaviour {
 	//		Void
 	//----------------------------------------------------------------------------------------------------
 	private void MovePlayer(){
-		transform.position+=direction / 10;
+		transform.position+=direction * Time.deltaTime;
 	}
 
 	//----------------------------------------------------------------------------------------------------
