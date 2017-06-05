@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Shield : MonoBehaviour {
 
-	//myParent is a reference to the player that this instance is sheilding
+	//myParent is a reference to who this instance is shielding and following
 	private GameObject myParent;
 
 	//----------------------------------------------------------------------------------------------------
@@ -21,23 +21,22 @@ public class Shield : MonoBehaviour {
 		if (myParent != null) {
 			transform.position = myParent.transform.position;
 		}
-	
 	}
 
 	//----------------------------------------------------------------------------------------------------
 	//Initilise()
-	//	Called with instantiation on Player. Sets destroy time and 'parent'
+	//	Called alongside instantiation. Initlise this instance.
 	// 
 	//	Param:
-	//		GameObject newParent - who this instance will shield
+	//		GameObject newParent - who the shield will be shielding
 	//		float duration - how long this instance will last for
 	//
 	//	Return:
 	//		Void
 	//----------------------------------------------------------------------------------------------------
-	public void Initilise(GameObject newParent, float duration){
-		myParent = newParent;
+	public void Initilise(GameObject newParent, float duration) {
 		Destroy (this.gameObject, duration);
+		myParent = newParent;
 	}
 
 

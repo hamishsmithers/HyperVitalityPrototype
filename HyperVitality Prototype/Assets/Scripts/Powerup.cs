@@ -110,8 +110,8 @@ public class Powerup : MonoBehaviour {
 			currentSpeed = Vector3.Distance (transform.position, player2.transform.position);
 		}
 
-		currentSpeed = currentSpeed / divisionAmount;
-		currentSpeed -= maxSpeed;
+		currentSpeed = -currentSpeed / divisionAmount;
+		currentSpeed += maxSpeed;
 		currentSpeed = -currentSpeed;
 	
 

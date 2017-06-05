@@ -65,6 +65,8 @@ public class PlayerController : MonoBehaviour {
 	//rotation is the direction the ship is facing
 	private Vector3 rotation = Vector3.zero;
 
+	//attackSpeedTimeBetweenShots is the time between this player's shots in seconds should the attackSpeed powerup be active
+	public float attackSpeedTimeBetweenShots;
 	//attackSpeed is whether or not the player has the attackSpeed powerup.
 	private bool attackSpeed = false;
 	//attackSpeedTimer is the time at which the attackSpeed powerup runs out.
@@ -206,7 +208,7 @@ public class PlayerController : MonoBehaviour {
 	//----------------------------------------------------------------------------------------------------
 	private void Fire(){
 		if (attackSpeed) {
-			if (Time.time - fireTimer > timeBetweenShots / 2) {
+			if (Time.time - fireTimer > attackSpeedTimeBetweenShots) {
 				fireTimer = Time.time;
 				//Bullet is a new instance of a bullet
 				GameObject Bullet = Instantiate (bulletPrefab, bulletSpawn.transform.position, Quaternion.identity, bulletParent.transform) as GameObject;
