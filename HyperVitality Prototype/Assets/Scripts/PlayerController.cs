@@ -93,6 +93,9 @@ public class PlayerController : MonoBehaviour {
 	//particleSystem is a reference to the particles used for damage
 	public ParticleSystem particleSystem;
 
+	//triggerFire is whether or not the bullets are fired from aim or from trigger
+	private bool triggerFire = false;
+
 	//----------------------------------------------------------------------------------------------------
 	//Start()
 	//	Called on instantiation. Instantiate this instance.
@@ -152,6 +155,15 @@ public class PlayerController : MonoBehaviour {
 	//		Void
 	//----------------------------------------------------------------------------------------------------
 	private void PlayerInput() {
+
+		if (XCI.GetButtonDown (XboxButton.LeftBumper, controller)) {
+			if (triggerFire) {
+				triggerFire = false;
+			} else if(!triggerFire){
+				triggerFire = true;
+			}
+		}
+
 		//moveX holds the X value of the left analog stick
 		float moveX = XCI.GetAxis (XboxAxis.LeftStickX, controller);
 		//moveY holds the Y value of the left analog stick
@@ -186,9 +198,14 @@ public class PlayerController : MonoBehaviour {
 			Vector3 tempRotationInput = new Vector3 (rotateX, 0, rotateZ).normalized * 10;
 			rotation = transform.position + tempRotationInput;
 			mesh.transform.LookAt (rotation);
+			if (!triggerFire) {
+				Fire ();
+			}
 		}
-		if (XCI.GetAxis(XboxAxis.RightTrigger, controller) > 0.2f) {
-			Fire ();
+		if (triggerFire) {
+			if (XCI.GetAxis (XboxAxis.RightTrigger, controller) > 0.2f) {
+				Fire ();
+			}
 		}
 	}
 

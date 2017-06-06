@@ -6,11 +6,30 @@ using UnityEngine.SceneManagement;
 
 public class MenuController : MonoBehaviour {
 
-
-	public void LoadScene(string SceneName){
-		SceneManager.LoadScene (SceneName);
+	//----------------------------------------------------------------------------------------------------
+	//LoadScene()
+	//	Called from button. Loads selected scene.
+	// 
+	//	Param:
+	//		string SceneName - name of scene to load
+	//
+	//	Return:
+	//		Void
+	//----------------------------------------------------------------------------------------------------
+	public void LoadScene(string sceneName){
+		SceneManager.LoadScene (sceneName);
 	}
 
+	//----------------------------------------------------------------------------------------------------
+	//QuitGame()
+	//	Called from button. Quits application.
+	// 
+	//	Param:
+	//		None
+	//
+	//	Return:
+	//		Void
+	//----------------------------------------------------------------------------------------------------
 	public void QuitGame(){
 		Application.Quit ();
 	}
