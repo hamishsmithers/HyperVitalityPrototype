@@ -5,6 +5,9 @@ using XboxCtrlrInput;
 
 public class PlayerController : MonoBehaviour {
 
+	//playerNumber is what player this is;
+	public int playerNumber;
+
 	//controller is a reference to the Xbox controller this player uses for input
 	public XboxController controller;
 
@@ -93,8 +96,7 @@ public class PlayerController : MonoBehaviour {
 	//particleSystem is a reference to the particles used for damage
 	public ParticleSystem particleSystem;
 
-	//triggerFire is whether or not the bullets are fired from aim or from trigger
-	private bool triggerFire = false;
+	InputController inputController;
 
 	//----------------------------------------------------------------------------------------------------
 	//Start()
@@ -111,6 +113,19 @@ public class PlayerController : MonoBehaviour {
 		attackSpeedTimer = Time.time;
 		tripleShotTimer = Time.time;
 		shieldTimer = Time.time;
+
+		//inputController is a reference to the input controller for bool firemode
+		InputController inputController = FindObjectOfType<InputController> ();
+		if (inputController) {
+			if (playerNumber == 1) {
+				autoFire = inputController.player1AutoFire;
+			} else if (playerNumber == 2) {
+				autoFire = inputController.player2AutoFire;
+			}
+		} else {
+			Debug.Log ("NO CONTROLLER FOR INPUT");
+		}
+
 	}
 
 	//----------------------------------------------------------------------------------------------------
@@ -156,14 +171,6 @@ public class PlayerController : MonoBehaviour {
 	//----------------------------------------------------------------------------------------------------
 	private void PlayerInput() {
 
-		if (XCI.GetButtonDown (XboxButton.LeftBumper, controller)) {
-			if (triggerFire) {
-				triggerFire = false;
-			} else if(!triggerFire){
-				triggerFire = true;
-			}
-		}
-
 		//moveX holds the X value of the left analog stick
 		float moveX = XCI.GetAxis (XboxAxis.LeftStickX, controller);
 		//moveY holds the Y value of the left analog stick
@@ -198,14 +205,19 @@ public class PlayerController : MonoBehaviour {
 			Vector3 tempRotationInput = new Vector3 (rotateX, 0, rotateZ).normalized * 10;
 			rotation = transform.position + tempRotationInput;
 			mesh.transform.LookAt (rotation);
-			if (!triggerFire) {
-				Fire ();
+			if (playerNumber == 1) {
+				if (inputController.player1AutoFire) {
+					Fire ();
+				}
+			} else if (playerNumber == 2) {
+				if (inputController.player2AutoFire) {
+					Fire ();
+				}
 			}
 		}
-		if (triggerFire) {
-			if (XCI.GetAxis (XboxAxis.RightTrigger, controller) > 0.2f) {
+
+		if (XCI.GetAxis (XboxAxis.RightTrigger, controller) > 0.2f) {
 				Fire ();
-			}
 		}
 	}
 
