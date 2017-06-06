@@ -90,6 +90,9 @@ public class PlayerController : MonoBehaviour {
 	//shieldDuration is how long the shield lasts for
 	private float shieldDuration;
 
+	//particleSystem is a reference to the particles used for damage
+	public ParticleSystem particleSystem;
+
 	//----------------------------------------------------------------------------------------------------
 	//Start()
 	//	Called on instantiation. Instantiate this instance.
@@ -105,6 +108,20 @@ public class PlayerController : MonoBehaviour {
 		attackSpeedTimer = Time.time;
 		tripleShotTimer = Time.time;
 		shieldTimer = Time.time;
+	}
+
+	//----------------------------------------------------------------------------------------------------
+	//Awake()
+	//	Called on instantiation. Instantiate this instance.
+	// 
+	//	Param:
+	//		None
+	//
+	//	Return:
+	//		Void
+	//----------------------------------------------------------------------------------------------------
+	void Awake(){
+		particleSystem.Stop ();
 	}
 
 	//----------------------------------------------------------------------------------------------------
@@ -169,6 +186,8 @@ public class PlayerController : MonoBehaviour {
 			Vector3 tempRotationInput = new Vector3 (rotateX, 0, rotateZ).normalized * 10;
 			rotation = transform.position + tempRotationInput;
 			mesh.transform.LookAt (rotation);
+		}
+		if (XCI.GetAxis(XboxAxis.RightTrigger, controller) > 0.2f) {
 			Fire ();
 		}
 	}
@@ -258,6 +277,7 @@ public class PlayerController : MonoBehaviour {
 	public void TakeDamage(int damage){
 		if (shielded == false) {
 			health -= damage;
+			particleSystem.Play ();
 		}
 	}
 	//----------------------------------------------------------------------------------------------------

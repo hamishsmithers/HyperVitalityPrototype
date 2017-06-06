@@ -88,7 +88,9 @@ public class AsteroidControl : MonoBehaviour {
 			//GO2 is the second of two small asteroids being created
 			GameObject GO2 = Instantiate (asteroidSmall, position - randomPosition, Quaternion.identity, transform) as GameObject;
 			GO1.GetComponent<Asteroid> ().direction = GO1.GetComponent<Asteroid> ().transform.position - GO2.GetComponent<Asteroid> ().transform.position;
+			GO1.transform.Rotate (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));
 			GO2.GetComponent<Asteroid> ().direction = GO2.GetComponent<Asteroid> ().transform.position - GO1.GetComponent<Asteroid> ().transform.position;
+			GO2.transform.Rotate (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));
 		} else {
 			if (asteroidSpawnCounter < 1) {
 				asteroidSpawnCounter = 1;
@@ -121,11 +123,13 @@ public class AsteroidControl : MonoBehaviour {
 		if (Random.Range (0, 2) == 0) {
 			//GO is a large asteroid being created with a random X and a set Z
 			GameObject GO =	Instantiate (asteroidLarge, new Vector3 (Random.Range (-rangeX, rangeX), 0, rangeZ), Quaternion.identity, transform) as GameObject;
+			GO.transform.Rotate (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));
 			GO.name = Random.Range (0f, 1f).ToString();
 		} else {
 			//GO is a large asteroid being created with a set X and a random
 			GameObject GO =	Instantiate (asteroidLarge, new Vector3 (rangeX, 0, Random.Range(-rangeZ, rangeZ)), Quaternion.identity, transform) as GameObject;
 			GO.name = Random.Range (0f, 1f).ToString();
+			GO.transform.Rotate (Random.Range (0, 360), Random.Range (0, 360), Random.Range (0, 360));
 		}
 
 	}

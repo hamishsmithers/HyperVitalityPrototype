@@ -41,6 +41,11 @@ public class Powerup : MonoBehaviour {
 	//duration is how long this powerups effect lasts
 	private float duration;
 
+	//tripleShotMaterial is a reference to the material this will use if it is a triple shot powerup
+	public Material tripleShotMaterial;
+	//shieldMaterial is a reference to the material this will use if it is a shield powerup
+	public Material shieldMaterial;
+
 	//----------------------------------------------------------------------------------------------------
 	//Start()
 	//	Called on instantiation. Instantiate this instance.
@@ -57,9 +62,10 @@ public class Powerup : MonoBehaviour {
 			duration = attackSpeedDuration;
 		} else if (selector == 1) {
 			duration = tripleShotDuration;
+			GetComponent<Renderer> ().material = tripleShotMaterial;
 		} else if (selector == 2) {
-			Debug.Log ("SHIELD FROM POWERUP");
 			duration = shieldDuration;
+			GetComponent<Renderer> ().material = shieldMaterial;
 		}
 		player1 = GameObject.FindGameObjectWithTag ("Player1");
 		player2 = GameObject.FindGameObjectWithTag ("Player2");
