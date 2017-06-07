@@ -12,8 +12,8 @@ public class InputToggle : MonoBehaviour {
 	InputController inputController;
 
 	//----------------------------------------------------------------------------------------------------
-	//Start()
-	//	Called on instantiation. Instantiate this instance.
+	//Initialise()
+	//	Called with/acts as instantiation from other objects. Instantiate this instance.
 	// 
 	//	Param:
 	//		None
@@ -21,7 +21,8 @@ public class InputToggle : MonoBehaviour {
 	//	Return:
 	//		Void
 	//----------------------------------------------------------------------------------------------------
-	void Start(){
+	public void Initialise(){
+		Debug.Log ("START ON INPUT TOGGLE");
 		inputController = FindObjectOfType<InputController> ();
 
 		if (playerNumber == 1) {
