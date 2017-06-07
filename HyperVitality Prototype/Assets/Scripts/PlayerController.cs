@@ -115,16 +115,16 @@ public class PlayerController : MonoBehaviour {
 		shieldTimer = Time.time;
 
 		//inputController is a reference to the input controller for bool firemode
-		InputController inputController = FindObjectOfType<InputController> ();
-		if (inputController) {
-			if (playerNumber == 1) {
-				autoFire = inputController.player1AutoFire;
-			} else if (playerNumber == 2) {
-				autoFire = inputController.player2AutoFire;
-			}
-		} else {
-			Debug.Log ("NO CONTROLLER FOR INPUT");
-		}
+		inputController = FindObjectOfType<InputController> ();
+//		if (inputController) {
+//			if (playerNumber == 1) {
+//				autoFire = inputController.player1AutoFire;
+//			} else if (playerNumber == 2) {
+//				autoFire = inputController.player2AutoFire;
+//			}
+//		} else {
+//			Debug.Log ("NO CONTROLLER FOR INPUT");
+//		}
 
 	}
 
@@ -217,8 +217,16 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		if (XCI.GetAxis (XboxAxis.RightTrigger, controller) > 0.2f) {
+			if (playerNumber == 1) {
+				if (!inputController.player1AutoFire) {
+					Fire ();
+				}
+		 } else if (playerNumber == 2) {
+			if (!inputController.player2AutoFire) {
 				Fire ();
+			}
 		}
+	}
 	}
 
 
