@@ -1,0 +1,36 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class InputToggle : MonoBehaviour {
+
+	//playerNumber refers to the player this will control the input for;
+	public int playerNumber;
+
+	//inputController is a reference to the input controller
+	InputController inputController;
+
+	//----------------------------------------------------------------------------------------------------
+	//Start()
+	//	Called on instantiation. Instantiate this instance.
+	// 
+	//	Param:
+	//		None
+	//
+	//	Return:
+	//		Void
+	//----------------------------------------------------------------------------------------------------
+	void Start(){
+		inputController = FindObjectOfType<InputController> ();
+
+		if (playerNumber == 1) {
+			this.GetComponent<Toggle> ().isOn = inputController.player1AutoFire;
+		}else if(playerNumber==2){
+			this.GetComponent<Toggle> ().isOn = inputController.player2AutoFire;
+		}
+
+	}
+
+
+}
