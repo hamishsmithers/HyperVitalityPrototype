@@ -96,6 +96,7 @@ public class PlayerController : MonoBehaviour {
 	//particleSystem is a reference to the particles used for damage
 	public ParticleSystem particleSystem;
 
+	//inputController is a reference to the input controller for bool firemode
 	InputController inputController;
 
 	//----------------------------------------------------------------------------------------------------
@@ -114,17 +115,8 @@ public class PlayerController : MonoBehaviour {
 		tripleShotTimer = Time.time;
 		shieldTimer = Time.time;
 
-		//inputController is a reference to the input controller for bool firemode
+
 		inputController = FindObjectOfType<InputController> ();
-//		if (inputController) {
-//			if (playerNumber == 1) {
-//				autoFire = inputController.player1AutoFire;
-//			} else if (playerNumber == 2) {
-//				autoFire = inputController.player2AutoFire;
-//			}
-//		} else {
-//			Debug.Log ("NO CONTROLLER FOR INPUT");
-//		}
 
 	}
 

@@ -36,6 +36,9 @@ public class Asteroid : MonoBehaviour {
 	//canBreak tracks whether the asteroid can break
 	private bool canBreak =true;
 
+	//particleSystem is a reference to the particles used for breaking
+	public ParticleSystem particleSystem;
+
 	//----------------------------------------------------------------------------------------------------
 	//Awake()
 	//	Called on instantiation. Instantiate this instance.
@@ -121,6 +124,9 @@ public class Asteroid : MonoBehaviour {
 			} else {
 				canBreak = false;
 				asteroidControl.AsteroidBreak (this.gameObject, isLarge, wasPlayer);
+				//GO is a reference to the newly made particle system object
+				GameObject GO = Instantiate (particleSystem.gameObject, transform.position, Quaternion.Euler(new Vector3(-90,0,0))) as GameObject;
+				Destroy (GO, 1f);
 				Destroy (this.gameObject);
 			}
 		}
@@ -141,7 +147,6 @@ public class Asteroid : MonoBehaviour {
 			if (other.gameObject.tag == "Asteroid") {
 				direction = transform.position - other.transform.position;
 				direction += new Vector3 (Random.Range (-1f, 1f), 0, Random.Range (-1f, 1f)) / 5;
-				//Break (false);
 			} else if (other.gameObject.tag == "Player") {
 				other.gameObject.GetComponent<PlayerMesh> ().TakeDamage (damage);
 				isBreaking = true;
