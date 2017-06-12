@@ -22,7 +22,6 @@ public class InputToggle : MonoBehaviour {
 	//		Void
 	//----------------------------------------------------------------------------------------------------
 	public void Initialise(){
-		Debug.Log ("START ON INPUT TOGGLE");
 		inputController = FindObjectOfType<InputController> ();
 
 		if (playerNumber == 1) {
