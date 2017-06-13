@@ -44,41 +44,5 @@ public class InputController : MonoBehaviour {
 	//----------------------------------------------------------------------------------------------------
 	void Awake(){
 		Object.DontDestroyOnLoad (this.gameObject);
-	}
-
-	//----------------------------------------------------------------------------------------------------
-	//TogglePlayer1
-	//	Called from toggle. Toggles player1AutoFire bool.
-	// 
-	//	Param:
-	//		GameObject toggle - Object that has toggle
-	//
-	//	Return:
-	//		Void
-	//----------------------------------------------------------------------------------------------------
-	public void TogglePlayer1(GameObject toggle){
-		if (toggle.GetComponent<Toggle>().isOn) {
-			player1AutoFire = true;
-		} else if (!toggle.GetComponent<Toggle>().isOn) {
-			player1AutoFire = false;
-		}
-	}
-	//----------------------------------------------------------------------------------------------------
-	//TogglePlayer2
-	//	Called from toggle. Toggles player2AutoFire bool.
-	// 
-	//	Param:
-	//		GameObject toggle - Object that has toggle
-	//
-	//	Return:
-	//		Void
-	//----------------------------------------------------------------------------------------------------
-	public void TogglePlayer2(GameObject toggle){
-		if (toggle.GetComponent<Toggle>().isOn) {
-			player2AutoFire = true;
-		} else if (!toggle.GetComponent<Toggle>().isOn) {
-			player2AutoFire = false;
-		}
-	}
-
+	}		
 }

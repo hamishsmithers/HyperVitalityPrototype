@@ -34,7 +34,7 @@ public class Shield : MonoBehaviour {
 	//	Return:
 	//		Void
 	//----------------------------------------------------------------------------------------------------
-	public void Initilise(GameObject newParent, float duration) {
+	public void Initialise(GameObject newParent, float duration) {
 		Destroy (this.gameObject, duration);
 		myParent = newParent;
 	}

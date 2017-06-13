@@ -52,7 +52,7 @@ public class Asteroid : MonoBehaviour {
 	void Awake () {
 		//x is a random number used to initialize movement and rotation should it not be set externally
 		float x = Random.Range (-1f, 1f);
-		//y is a random number used to initialize movement and rotation should it not be set externally
+		//y is a random number used to initialize rotation should it not be set externally
 		float y = Random.Range (-1f, 1f);
 		//z is a random number used to initialize movement and rotation should it not be set externally
 		float z = Random.Range (-1f, 1f);

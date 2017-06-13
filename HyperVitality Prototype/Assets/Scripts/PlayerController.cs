@@ -332,7 +332,7 @@ public class PlayerController : MonoBehaviour {
 		} else if (powerup == 2) {
 			//GO is a reference to the newly created shield
 			GameObject GO = Instantiate(shield, this.transform.position, Quaternion.identity);
-			GO.GetComponent<Shield> ().Initilise (this.gameObject, duration);
+			GO.GetComponent<Shield> ().Initialise (this.gameObject, duration);
 			shielded = true;
 			shieldTimer = Time.time;
 			shieldDuration = duration;

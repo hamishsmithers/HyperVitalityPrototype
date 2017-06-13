@@ -42,6 +42,7 @@ public class GameController : MonoBehaviour {
 	//		Void
 	//----------------------------------------------------------------------------------------------------
 	void Start(){
+		UnityEngine.Cursor.visible = false;
 		Invoke ("StartGame", 1f);
 	}
 
@@ -110,6 +111,7 @@ public class GameController : MonoBehaviour {
 	//		Void
 	//----------------------------------------------------------------------------------------------------
 	private void EnableEndScreen(){
+		UnityEngine.Cursor.visible = true;
 		endScreen.SetActive (true);
 	}
 
@@ -131,8 +133,8 @@ public class GameController : MonoBehaviour {
 		asteroidControl.SetActive (true);
 		player1Text.gameObject.SetActive (true);
 		player2Text.gameObject.SetActive (true);
-		player1Text.text = "500";
-		player2Text.text = "500";
+		player1Text.text = "300";
+		player2Text.text = "300";
 		started = true;
 	}
 
